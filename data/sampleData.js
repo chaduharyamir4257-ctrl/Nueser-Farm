@@ -1,0 +1,133 @@
+// Local development content used when Supabase is not configured yet.
+// Replace these records from the admin panel once final nursery inventory is ready.
+
+export const samplePlants = [
+  {
+    id: "1",
+    slug: "indoor-table-plants",
+    name: "Indoor Table Plants",
+    category: "indoor",
+    size: "Small to Medium",
+    age: "Ready plants",
+    price: 1200,
+    image_url: "/images/17.webp",
+    description: "Easy-care indoor plants for homes, offices, shelves, and tables.",
+  },
+  {
+    id: "2",
+    slug: "outdoor-garden-plants",
+    name: "Outdoor Garden Plants",
+    category: "outdoor",
+    size: "Medium to Large",
+    age: "Ready plants",
+    price: 1800,
+    image_url: "/images/outdoor.webp",
+    description: "Strong outdoor plants suitable for lawns, entrances, boundaries, and open spaces.",
+  },
+  {
+    id: "3",
+    slug: "flowering-seasonal-plants",
+    name: "Flowering Seasonal Plants",
+    category: "flowering",
+    size: "Small to Medium",
+    age: "Seasonal",
+    price: 650,
+    image_url: "/images/16.jpeg",
+    description: "Colorful flowering plants for fresh garden beds, pots, and front areas.",
+  },
+  {
+    id: "4",
+    slug: "fruit-and-shade-plants",
+    name: "Fruit & Shade Plants",
+    category: "outdoor",
+    size: "Medium to Large",
+    age: "Ready plants",
+    price: 2500,
+    image_url: "/images/18.webp",
+    description: "Fruit and shade plants for farms, homes, and long-term garden planning.",
+  },
+  {
+    id: "5",
+    slug: "decorative-pot-plants",
+    name: "Decorative Pot Plants",
+    category: "indoor",
+    size: "Small to Medium",
+    age: "Ready plants",
+    price: 1500,
+    image_url: "/images/banner.jpeg",
+    description: "Neat, presentable plants for balconies, patios, offices, and gifts.",
+  },
+  {
+    id: "6",
+    slug: "landscape-shrubs",
+    name: "Landscape Shrubs",
+    category: "outdoor",
+    size: "Medium",
+    age: "Ready plants",
+    price: 900,
+    image_url: "/images/outdoor.webp",
+    description: "Hardy shrubs for borders, pathways, commercial landscaping, and green belts.",
+  },
+];
+
+export const sampleFertilizers = [
+  {
+    id: "f1",
+    name: "Organic Plant Feed",
+    price: 450,
+    description: "General plant nutrition for healthier leaves, roots, and steady growth.",
+    image_url: "/images/Spraying_fertilizer.webp",
+  },
+  {
+    id: "f2",
+    name: "Plant Protection Spray",
+    price: 600,
+    description: "Useful for common plant pests and routine garden care.",
+    image_url: "/images/Spraying_fertilizer.webp",
+  },
+  {
+    id: "f3",
+    name: "Garden Soil Mix",
+    price: 500,
+    description: "Soil mix for pots, flowering plants, indoor plants, and new planting.",
+    image_url: "/images/16.jpeg",
+  },
+];
+
+export const sampleServices = [
+  {
+    id: "s1",
+    title: "Home Garden Setup",
+    category: "Homes & villas",
+    description: "Plant selection, layout, pots, soil, and installation for a clean home garden.",
+    image_url: "/images/outdoor.webp",
+  },
+  {
+    id: "s2",
+    title: "Lawn & Green Area Work",
+    category: "Lawns & open spaces",
+    description: "Fresh greenery for lawns, farmhouses, entrances, and larger outdoor areas.",
+    image_url: "/images/18.webp",
+  },
+  {
+    id: "s3",
+    title: "Office & Commercial Planting",
+    category: "Commercial spaces",
+    description: "Indoor and outdoor planting for offices, shops, showrooms, and business spaces.",
+    image_url: "/images/banner.jpeg",
+  },
+  {
+    id: "s4",
+    title: "Seasonal Flower Beds",
+    category: "Seasonal color",
+    description: "Flowering plant beds and pots to make front areas brighter and more welcoming.",
+    image_url: "/images/16.jpeg",
+  },
+  {
+    id: "s5",
+    title: "Plant Care & Maintenance",
+    category: "After-care",
+    description: "Pruning, feeding, spray guidance, replacement advice, and routine plant care.",
+    image_url: "/images/Spraying_fertilizer.webp",
+  },
+];
