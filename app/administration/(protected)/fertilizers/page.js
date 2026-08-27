@@ -28,7 +28,6 @@ export default function AdminFertilizersPage() {
   useEffect(() => { load(); }, []);
 
   async function handleDelete(item) {
-    if (!confirm(`Delete "${item.name}"? This can't be undone.`)) return;
     if (!supabase) return;
     await supabase.from("fertilizers").delete().eq("id", item.id);
     load();

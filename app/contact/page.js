@@ -4,24 +4,86 @@ const contactLinks = [
   {
     label: "Location",
     value: "Gehlan phatak Multan Road N5 Punjab Pakistan, Pattoki, Pakistan, 55300",
+    icon: "location",
   },
   {
     label: "Second branch",
     value: "Ghous Ali Nursery Farm, Bilal Switchgear Engineering, 11km Raiwind Rd, Chamru Pur Kot Bagh, Lahore.",
+    icon: "location",
   },
   {
     label: "Email",
     value: "ghousalinursery@gmail.com",
+    icon: "email",
+  },
+  {
+    label: "Phones",
+    value: "+92 347 4254696\n+92 300 299 2213",
+    icon: "phone",
   },
   {
     label: "Instagram",
     value: "@ghousalinursery",
+    icon: "instagram",
   },
   {
     label: "TikTok",
     value: "@ghousalinursery",
+    icon: "tiktok",
+  },
+  {
+    label: "Facebook",
+    value: "Ghous Ali Nursery",
+    icon: "facebook",
   },
 ];
+
+function SocialIcon({ type }) {
+  const base = "h-5 w-5";
+  if (type === "location") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className={base} aria-hidden="true">
+        <path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </svg>
+    );
+  }
+  if (type === "phone") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className={base} aria-hidden="true">
+        <path d="M6.5 3.5h3l1.5 5-2 1.5a16 16 0 0 0 5 5l1.5-2 5 1.5v3A3.5 3.5 0 0 1 17.5 22C9.5 22 2 14.5 2 6.5A3.5 3.5 0 0 1 5.5 3h1Z" />
+      </svg>
+    );
+  }
+  if (type === "email") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className={base} aria-hidden="true">
+        <rect x="3" y="5" width="18" height="14" rx="2.5" />
+        <path d="m4 7 8 6 8-6" />
+      </svg>
+    );
+  }
+  if (type === "instagram") {
+    return (
+      <svg viewBox="0 0 24 24" fill="currentColor" className={base} aria-hidden="true">
+        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.51 5.51 0 0 1 12 7.5Zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5ZM18 6a1.25 1.25 0 1 1-1.25 1.25A1.25 1.25 0 0 1 18 6Z" />
+      </svg>
+    );
+  }
+  if (type === "tiktok") {
+    return (
+      <svg viewBox="0 0 24 24" fill="currentColor" className={base} aria-hidden="true">
+        <path d="M14 2v11.2a4.8 4.8 0 1 1-4-4.72V4.3a8.8 8.8 0 1 0 6 8.4V8.2a7.2 7.2 0 0 0 4 1.3V5.5a3.8 3.8 0 0 1-4-3.5Z" />
+      </svg>
+    );
+  }
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className={base} aria-hidden="true">
+      <path d="M4 6h16v12H4z" />
+      <path d="m4 7 8 6 8-6" />
+    </svg>
+  );
+}
 
 export default function ContactPage() {
   const primaryMapUrl =
@@ -54,12 +116,25 @@ export default function ContactPage() {
                   key={item.label}
                   className="rounded-[24px] border border-line bg-white p-5 shadow-sm"
                 >
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay-dark">
-                    {item.label}
-                  </p>
-                  <p className="mt-3 text-sm leading-6 text-forest-dark">
-                    {item.value}
-                  </p>
+                  <div className="flex items-start gap-3">
+                    {item.icon ? (
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-forest-dark text-cream">
+                        <SocialIcon type={item.icon} />
+                      </div>
+                    ) : (
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sage-light text-forest-dark text-sm font-semibold">
+                        <SocialIcon type={item.icon} />
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay-dark">
+                        {item.label}
+                      </p>
+                      <p className="mt-2 whitespace-pre-line text-sm leading-6 text-forest-dark">
+                        {item.value}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

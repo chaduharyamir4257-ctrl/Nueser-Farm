@@ -29,7 +29,6 @@ export default function AdminPlantsPage() {
   useEffect(() => { load(); }, []);
 
   async function handleDelete(item) {
-    if (!confirm(`Delete "${item.name}"? This can't be undone.`)) return;
     if (!supabase) return;
     await supabase.from("plants").delete().eq("id", item.id);
     load();

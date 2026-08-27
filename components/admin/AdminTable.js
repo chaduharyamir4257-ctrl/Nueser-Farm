@@ -7,6 +7,7 @@ const pageSize = 10;
 
 export default function AdminTable({ items, basePath, columns, onDelete }) {
   const [page, setPage] = useState(1);
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
   const currentPage = Math.min(page, totalPages);
@@ -55,16 +56,16 @@ export default function AdminTable({ items, basePath, columns, onDelete }) {
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[760px] text-sm">
+        <table className="w-full min-w-[960px] table-fixed text-sm">
           <thead className="bg-white">
             <tr className="border-b border-line text-left text-[11px] uppercase tracking-[0.18em] text-ink-soft">
               {columns.map((c) => (
-                <th key={c.key} className="px-5 py-4">
+                <th key={c.key} className="px-4 py-4">
                   {c.label}
                 </th>
               ))}
 
-              <th className="px-5 py-4 text-center">Actions</th>
+              <th className="px-4 py-4 text-center">Actions</th>
             </tr>
           </thead>
 
@@ -83,7 +84,7 @@ export default function AdminTable({ items, basePath, columns, onDelete }) {
                   return (
                     <td
                       key={c.key}
-                      className="px-5 py-4 align-top text-sm text-ink-soft"
+                      className="px-4 py-4 align-top text-sm text-ink-soft break-words"
                     >
                       {value !== null &&
                       value !== undefined &&
@@ -95,17 +96,17 @@ export default function AdminTable({ items, basePath, columns, onDelete }) {
                 })}
 
                 {/* Actions */}
-                <td className="whitespace-nowrap px-5 py-4 text-right">
+                <td className="whitespace-nowrap px-4 py-4 text-right">
                   <Link
                     href={`${basePath}/${item.id}/edit`}
-                    className="mr-2 inline-flex rounded-full bg-forest-dark px-3.5 py-2 text-xs font-semibold text-cream transition hover:bg-forest"
+                    className="mr-2 inline-flex rounded-full bg-forest-dark px-3 py-2 text-xs font-semibold text-cream transition hover:bg-forest"
                   >
                     Edit
                   </Link>
 
                   <button
-                    onClick={() => onDelete(item)}
-                    className="inline-flex rounded-full border border-line bg-white px-3.5 py-2 text-xs font-semibold text-clay transition hover:bg-cream"
+                    onClick={() => setDeleteTarget(item)}
+                    className="inline-flex rounded-full border border-line bg-white px-3 py-2 text-xs font-semibold text-clay transition hover:bg-cream"
                   >
                     Delete
                   </button>
@@ -165,6 +166,40 @@ export default function AdminTable({ items, basePath, columns, onDelete }) {
             >
               Next
             </button>
+          </div>
+        </div>
+      )}
+
+      {deleteTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 px-4">
+          <div className="w-full max-w-md rounded-[24px] border border-line bg-white p-6 shadow-2xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay-dark">
+              Confirm delete
+            </p>
+            <h3 className="mt-2 font-serif text-2xl text-forest-dark">
+              Delete {deleteTarget.name}?
+            </h3>
+            <p className="mt-3 text-sm leading-6 text-ink-soft">
+              This record will be removed permanently.
+            </p>
+
+            <div className="mt-6 flex items-center justify-end gap-3">
+              <button
+                onClick={() => setDeleteTarget(null)}
+                className="rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold text-forest-dark transition hover:bg-cream-card"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async () => {
+                  await onDelete(deleteTarget);
+                  setDeleteTarget(null);
+                }}
+                className="rounded-full bg-clay px-4 py-2 text-sm font-semibold text-white transition hover:bg-clay-dark"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -1,10 +1,10 @@
-import { getFertilizers } from "@/lib/getData";
+import { getFertilizersPage } from "@/lib/getData";
 import FertilizersGrid from "@/components/FertilizersGrid";
 
 export const metadata = { title: "Fertilizers & Sprays — Ghous Ali Nursery Farm" };
 
 export default async function FertilizersPage() {
-  const items = await getFertilizers();
+  const { items, total } = await getFertilizersPage(1, 10);
 
   return (
     <>
@@ -20,7 +20,7 @@ export default async function FertilizersPage() {
 
       <section className="pt-12 pb-16">
         <div className="max-w-[1180px] mx-auto px-7">
-          <FertilizersGrid items={items} />
+          <FertilizersGrid initialItems={items} total={total} />
         </div>
       </section>
     </>

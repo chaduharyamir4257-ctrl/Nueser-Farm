@@ -4,11 +4,13 @@ import { useMemo, useState } from "react";
 import AddButton from "@/app/fertilizers/AddButton";
 import { formatPrice, getPromoState } from "@/lib/promo";
 
-export default function FertilizersGrid({ items }) {
+export default function FertilizersGrid({ initialItems, total }) {
   const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
   const [promoFilter, setPromoFilter] = useState("all");
   const [page, setPage] = useState(1);
+  const [items, setItems] = useState(initialItems || []);
+  const [loadingMore, setLoadingMore] = useState(false);
   const pageSize = 10;
 
   const categories = useMemo(() => {
@@ -38,11 +40,22 @@ export default function FertilizersGrid({ items }) {
   }, [activeCategory, items, search, promoFilter]);
 
   const visibleItems = filtered.slice(0, page * pageSize);
-  const maxPage = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const maxPage = Math.max(1, Math.ceil((total || items.length || 0) / pageSize));
 
   function selectCategory(category) {
     setActiveCategory(category);
     setPage(1);
+  }
+
+  async function loadMore() {
+    if (loadingMore) return;
+    setLoadingMore(true);
+    const nextPage = page + 1;
+    const response = await fetch(`/api/catalog?type=fertilizers&page=${nextPage}&pageSize=${pageSize}`);
+    const data = await response.json();
+    setItems((current) => [...current, ...(data.items || [])]);
+    setPage(nextPage);
+    setLoadingMore(false);
   }
 
   return (
@@ -125,13 +138,14 @@ export default function FertilizersGrid({ items }) {
         ))}
       </div>
 
-      {page < maxPage && (
+      {items.length < total && (
         <div className="mt-10 flex justify-center">
           <button
-            onClick={() => setPage((current) => Math.min(maxPage, current + 1))}
+            onClick={loadMore}
+            disabled={loadingMore}
             className="rounded-full bg-forest-dark px-6 py-3 text-sm font-semibold text-cream hover:bg-forest transition"
           >
-            Load more
+            {loadingMore ? "Loading…" : "Load more"}
           </button>
         </div>
       )}

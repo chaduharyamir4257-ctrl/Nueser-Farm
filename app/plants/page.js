@@ -1,10 +1,10 @@
-import { getPlants } from "@/lib/getData";
+import { getPlantsPage } from "@/lib/getData";
 import PlantsGrid from "./PlantsGrid";
 
 export const metadata = { title: "Browse Plants — Ghous Ali Nursery Farm" };
 
 export default async function PlantsPage() {
-  const plants = await getPlants();
+  const { items, total } = await getPlantsPage(1, 10);
 
   return (
     <>
@@ -19,7 +19,7 @@ export default async function PlantsPage() {
       </section>
       <section className="pt-12 pb-16">
         <div className="max-w-[1180px] mx-auto px-7">
-          <PlantsGrid plants={plants} />
+          <PlantsGrid initialPlants={items} total={total} />
         </div>
       </section>
     </>

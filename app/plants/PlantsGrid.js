@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import PlantCard from "@/components/PlantCard";
+import { getPromoState } from "@/lib/promo";
 
 const filters = [
   { key: "all", label: "All plants" },
@@ -12,26 +13,24 @@ const filters = [
 ];
 const pageSize = 10;
 
-export default function PlantsGrid({ plants }) {
+export default function PlantsGrid({ initialPlants, total }) {
   const [active, setActive] = useState("all");
   const [search, setSearch] = useState("");
   const [promoFilter, setPromoFilter] = useState("all");
   const [page, setPage] = useState(1);
+  const [plants, setPlants] = useState(initialPlants || []);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
     return plants.filter((plant) => {
       const matchesCategory = active === "all" || plant.category === active;
-      const promo = {
-        discount: Number(plant.discount_percent || 0),
-        newArrival: Boolean(plant.is_new_arrival),
-        featured: Boolean(plant.is_featured),
-      };
+      const promo = getPromoState(plant);
       const matchesPromo =
         promoFilter === "all" ||
-        (promoFilter === "sale" && promo.discount > 0) ||
-        (promoFilter === "new" && promo.newArrival) ||
-        (promoFilter === "featured" && promo.featured) ||
+        (promoFilter === "sale" && promo.discountPercent > 0) ||
+        (promoFilter === "new" && promo.badges.includes("New")) ||
+        (promoFilter === "featured" && promo.badges.includes("Featured")) ||
         (promoFilter === "stock" && plant.in_stock !== false) ||
         (promoFilter === "outstock" && plant.in_stock === false);
       const matchesSearch =
@@ -44,7 +43,18 @@ export default function PlantsGrid({ plants }) {
   }, [active, plants, search, promoFilter]);
 
   const visiblePlants = useMemo(() => filtered.slice(0, page * pageSize), [filtered, page]);
-  const maxPage = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const maxPage = Math.max(1, Math.ceil((total || plants.length || 0) / pageSize));
+
+  async function loadMore() {
+    if (loadingMore) return;
+    setLoadingMore(true);
+    const nextPage = page + 1;
+    const response = await fetch(`/api/catalog?type=plants&page=${nextPage}&pageSize=${pageSize}`);
+    const data = await response.json();
+    setPlants((current) => [...current, ...(data.items || [])]);
+    setPage(nextPage);
+    setLoadingMore(false);
+  }
 
   return (
     <>
@@ -88,13 +98,14 @@ export default function PlantsGrid({ plants }) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
         {visiblePlants.map((p) => <PlantCard key={p.id} plant={p} />)}
       </div>
-      {page < maxPage && (
+      {plants.length < total && (
         <div className="mt-10 flex justify-center">
           <button
-            onClick={() => setPage((current) => Math.min(maxPage, current + 1))}
+            onClick={loadMore}
+            disabled={loadingMore}
             className="rounded-full bg-forest-dark px-6 py-3 text-sm font-semibold text-cream hover:bg-forest transition"
           >
-            Load more
+            {loadingMore ? "Loading…" : "Load more"}
           </button>
         </div>
       )}
